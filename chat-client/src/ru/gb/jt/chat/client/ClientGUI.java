@@ -60,6 +60,7 @@ public class ClientGUI extends JFrame implements ActionListener, Thread.Uncaught
         btnSend.addActionListener(this);
         tfMessage.addActionListener(this);
         btnLogin.addActionListener(this);
+        btnDisconnect.addActionListener(this);
 
         panelTop.add(tfIPAddress);
         panelTop.add(tfPort);
@@ -112,11 +113,6 @@ public class ClientGUI extends JFrame implements ActionListener, Thread.Uncaught
         tfMessage.grabFocus();
         socketThread.sendMessage(msg);
 
-        if (!"".equals(msg)) {
-            tfMessage.setText(null);
-            tfMessage.grabFocus();
-            socketThread.sendMessage(msg);
-        }
 
 //        putLog(String.format("%s: %s", username, msg));
 //        wrtMsgToLogFile(msg, username);
@@ -136,7 +132,7 @@ public class ClientGUI extends JFrame implements ActionListener, Thread.Uncaught
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                log.append(msg + "\n");
+                log.append(Extract.extractMsg(msg)  + "\n");
                 log.setCaretPosition(log.getDocument().getLength());
             }
         });
